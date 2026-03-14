@@ -7,12 +7,21 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './src'),
     },
   },
   server: {
+    host: true,
     port: 3000,
     open: true,
+    proxy: {
+      '/api': {
+        target: 'https://dummyjson.com',
+        changeOrigin: true,
+        secure: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   build: {
     outDir: 'build',

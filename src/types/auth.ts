@@ -1,10 +1,10 @@
-export interface LoginCredentials {
+export type TLoginRequest = {
   username: string;
   password: string;
   expiresInMins?: number;
-}
+};
 
-export interface AuthResponse {
+export type TUser = {
   id: number;
   username: string;
   email: string;
@@ -12,16 +12,9 @@ export interface AuthResponse {
   lastName: string;
   gender: string;
   image: string;
+};
+
+export type TLoginResponse = TUser & {
   accessToken: string;
   refreshToken: string;
-}
-
-export interface User {
-  id: number;
-  username: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  image: string;
-}
+};

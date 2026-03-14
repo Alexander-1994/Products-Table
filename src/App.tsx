@@ -1,29 +1,19 @@
-import { useAuth } from './contexts/AuthContext';
-import { LoginForm } from './components/LoginForm';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Toaster } from 'sonner';
 
-export const App = () => {
-  const { user, logout } = useAuth();
+import { LoginPage, ProductsPage } from './pages';
+import { store } from './redux/store';
 
-  if (!user) {
-    return <LoginForm />;
-  }
-
-  return (
-    <div className="p-8">
-      <div className="mb-4 p-4 bg-green-100 rounded">
-        <h1>
-          Добро пожаловать, {user.firstName} {user.lastName}!
-        </h1>
-        <p>
-          ID: {user.id} | Email: {user.email}
-        </p>
-        <button
-          onClick={logout}
-          className="mt-2 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-        >
-          Выйти
-        </button>
-      </div>
-    </div>
-  );
-};
+export const App = () => (
+  <Provider store={store}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/products" replace />} />
+        <Route path="/products" element={<ProductsPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
+    <Toaster position="top-right" richColors /> {/* TODO */}
+  </Provider>
+);
