@@ -33,7 +33,7 @@ export const LoginPage: FC = () => {
             <h2 className="text-3xl font-black text-gray-900 mb-2">
               {locale.welcome}
             </h2>
-            <p className="text-gray-600">{locale.loginYourAccount}</p>
+            <p className="text-gray-600">{locale.pleaseLogin}</p>
           </div>
           <LoginForm
             isLoading={loading}

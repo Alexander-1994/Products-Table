@@ -1,7 +1,7 @@
 export const locale = {
   products: 'Товары',
   welcome: 'Добро пожаловать!',
-  loginYourAccount: 'Войдите в свой аккаунт',
+  pleaseLogin: 'Пожалуйста, авторизируйтесь',
   username: 'Логин',
   enterUsername: 'Введите логин',
   requiredField: 'Обязательное поле',
@@ -40,4 +40,5 @@ export const locale = {
     'Что-то пошло не так. Попробуйте авторизироваться повторно',
   failedToLoadProductList: 'Не удалось загрузить список продуктов',
   errorAddingProduct: 'Ошибка добавления товара',
+  allPositions: 'Все позиции',
 } as const;

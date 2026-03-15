@@ -5,7 +5,7 @@ import { locale } from '~/constants/locale';
 import { Button } from './Button';
 
 type TProps = {
-  name: string;
+  name?: string;
   onLogout: VoidFunction;
 };
 
@@ -15,7 +15,7 @@ export const Header: FC<TProps> = ({ name, onLogout }) => (
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-bold text-gray-900">
-            {locale.products}
+            {locale.products.toUpperCase()}
           </h1>
           <div className="text-sm text-gray-500">
             {locale.hello}, {name}

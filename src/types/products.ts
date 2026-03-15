@@ -8,9 +8,13 @@ export type TProduct = {
   image?: string;
 };
 
-export type TParams = {
+export type TSortParams = {
   sortBy?: string;
   order?: 'asc' | 'desc';
+};
+
+export type TSearchParams = {
+  q: string;
 };
 
 export type TNewProductForm = Omit<TProduct, 'id'>;

@@ -28,6 +28,20 @@ export const ProductsTable: FC<TProps> = ({
 
   const arrow = order === 'asc' ? '↑' : '↓';
 
+  const renderHeader = () => (
+    <div className="flex justify-between items-center">
+      <h2 className="text-xl font-bold text-gray-900">{locale.allPositions}</h2>
+      <div className="flex justify-end gap-3 py-5">
+        <Button onClick={onUpdate} variant="secondary" size="sm">
+          {locale.update}
+        </Button>
+        <Button onClick={onAdd} variant="primary" size="sm">
+          {locale.add}
+        </Button>
+      </div>
+    </div>
+  );
+
   const handleSortUpdate = (sortBy: TSortBy) => {
     onSort({ sortBy, order });
     setSortBy(sortBy);
@@ -48,18 +62,7 @@ export const ProductsTable: FC<TProps> = ({
 
   return (
     <>
-      {isLoading ? (
-        <ProgressBar />
-      ) : (
-        <div className="flex justify-end gap-3 py-5">
-          <Button onClick={onUpdate} variant="secondary" size="sm">
-            {locale.update}
-          </Button>
-          <Button onClick={onAdd} variant="primary" size="sm">
-            {locale.add}
-          </Button>
-        </div>
-      )}
+      {isLoading ? <ProgressBar /> : renderHeader()}
       <div className="bg-white rounded-3xl shadow-xl border border-gray-200 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">

@@ -6,14 +6,13 @@ import {
 
 import productsService from '~/api/products';
 import { locale } from '~/constants/locale';
-import type { TParams, TProduct } from '~/types/products';
+import type { TSortParams, TSearchParams, TProduct } from '~/types/products';
 
 type TProductsState = {
   items: TProduct[];
   hasNewProduct: boolean;
   loading: boolean;
   error: string | null;
-  search: string;
 };
 
 const initialState: TProductsState = {
@@ -21,16 +20,27 @@ const initialState: TProductsState = {
   hasNewProduct: false,
   loading: false,
   error: null,
-  search: '',
 };
 
 export const fetchProducts = createAsyncThunk<
   TProduct[],
-  TParams | undefined,
+  TSortParams | undefined,
   { rejectValue: string }
 >('products/fetchProducts', async (query = {}, { rejectWithValue }) => {
   try {
     return await productsService.getProducts(query);
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
+
+export const searchProducts = createAsyncThunk<
+  TProduct[],
+  TSearchParams,
+  { rejectValue: string }
+>('products/fetchProducts', async (query, { rejectWithValue }) => {
+  try {
+    return await productsService.searchProducts(query);
   } catch (error: any) {
     return rejectWithValue(error.message);
   }
@@ -53,9 +63,6 @@ const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setSearch: (state, action: PayloadAction<string>) => {
-      state.search = action.payload;
-    },
     resetNewProductFlag: (state) => {
       state.hasNewProduct = false;
     },
@@ -72,6 +79,19 @@ const productsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || locale.failedToLoadProductList;
+      })
+      .addCase(searchProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(searchProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.items = action.payload;
+        state.error = null;
+      })
+      .addCase(searchProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || locale.failedToLoadProductList;
       })
@@ -92,5 +112,5 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setSearch, resetNewProductFlag } = productsSlice.actions;
+export const { resetNewProductFlag } = productsSlice.actions;
 export default productsSlice.reducer;

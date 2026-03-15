@@ -2,12 +2,12 @@ import { useEffect } from 'react';
 
 import { locale } from '~/constants/locale';
 import {
-  fetchProducts,
-  addProduct,
-  setSearch,
   resetNewProductFlag,
+  fetchProducts,
+  searchProducts,
+  addProduct,
 } from '~/redux/productsSlice';
-import type { TParams, TProduct } from '~/types/products';
+import type { TSortParams, TSearchParams, TProduct } from '~/types/products';
 
 import { useAppDispatch } from './useAppDispatch';
 import { useAppSelector } from './useAppSelector';
@@ -15,7 +15,7 @@ import { useToast } from './useToast';
 
 export const useProducts = () => {
   const dispatch = useAppDispatch();
-  const { items, hasNewProduct, loading, error, search } = useAppSelector(
+  const { items, hasNewProduct, loading, error } = useAppSelector(
     (state) => state.products
   );
   const { toastError, toastSuccess } = useToast();
@@ -29,20 +29,20 @@ export const useProducts = () => {
     }
   }, [error, hasNewProduct]);
 
-  const handleProductsLoad = (query?: TParams) =>
+  const handleProductsLoad = (query?: TSortParams) =>
     dispatch(fetchProducts(query));
+
+  const handleProductsSearch = (query: TSearchParams) =>
+    dispatch(searchProducts(query));
 
   const handleProductCreate = (productData: Omit<TProduct, 'id'>) =>
     dispatch(addProduct(productData));
 
-  const handleSearchUpdate = (search: string) => dispatch(setSearch(search));
-
   return {
     items,
     loading,
-    search,
     handleProductsLoad,
+    handleProductsSearch,
     handleProductCreate,
-    handleSearchUpdate,
   };
 };

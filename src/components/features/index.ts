@@ -1,3 +1,4 @@
 export { LoginForm } from './LoginForm';
-export { NewProductForm } from './NewProductForm';
+export { ProductSearch } from './ProductSearch';
 export { ProductsTable } from './ProductsTable';
+export { NewProductForm } from './NewProductForm';
