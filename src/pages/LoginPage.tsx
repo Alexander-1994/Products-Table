@@ -1,8 +1,8 @@
 import { type FC, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { LockIcon } from '~/components/ui';
 import { LoginForm } from '~/components/features';
+import { LockIcon } from '~/components/ui';
 import { locale } from '~/constants/locale';
 import { useAuth } from '~/hooks/useAuth';
 import type { TLoginForm } from '~/types/auth';

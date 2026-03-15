@@ -1,8 +1,10 @@
 import type { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import type { TLoginForm } from '~/types/auth';
-import { Input, Checkbox, Button, Loader } from '../ui';
+
 import { locale } from '~/constants/locale';
+import type { TLoginForm } from '~/types/auth';
+
+import { Input, Checkbox, Button, Loader } from '../ui';
 
 type TProps = {
   isLoading: boolean;

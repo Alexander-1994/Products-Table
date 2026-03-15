@@ -1,8 +1,8 @@
 import { type FC, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Header, Input, Modal } from '~/components/ui';
 import { ProductsTable, NewProductForm } from '~/components/features';
+import { Header, Input, Modal } from '~/components/ui';
 import { locale } from '~/constants/locale';
 import { useAuth } from '~/hooks/useAuth';
 import { useProducts } from '~/hooks/useProducts';
