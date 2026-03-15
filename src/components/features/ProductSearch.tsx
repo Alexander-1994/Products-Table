@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect } from 'react';
+import { type FC, useState, useCallback, useEffect } from 'react';
 
 import { locale } from '~/constants/locale';
 import { useDebounce } from '~/hooks/useDebounce';
@@ -16,16 +16,28 @@ export const ProductSearch: FC<TProps> = ({ onSearch, onClear }) => {
 
   const debouncedSearch = useDebounce(search, 500);
 
+  const handleClear = useCallback(() => {
+    setSearch('');
+    onClear();
+  }, [onClear]);
+
   useEffect(() => {
     if (debouncedSearch) {
       onSearch({ q: debouncedSearch });
     }
   }, [debouncedSearch]);
 
-  const handleClear = () => {
-    setSearch('');
-    onClear();
-  };
+  useEffect(() => {
+    const handleEscapeClick = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleClear();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeClick);
+
+    return () => document.removeEventListener('keydown', handleEscapeClick);
+  }, [handleClear]);
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">

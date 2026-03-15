@@ -1,6 +1,16 @@
 import { locale } from '~/constants/locale';
 import type { TSortParams, TSearchParams, TProduct } from '~/types/products';
 
+const prepareProduct = (product: Record<string, any>): TProduct => ({
+  id: product.id,
+  name: product.title,
+  vendor: product.brand || 'Unknown',
+  article: `ART-${product.id}`,
+  price: product.price,
+  rating: product.rating,
+  image: product.images?.[0],
+});
+
 class ProductsService {
   async getProducts(params?: TSortParams): Promise<TProduct[]> {
     const query = new URLSearchParams();
@@ -26,17 +36,7 @@ class ProductsService {
 
     const data = await response.json();
 
-    return data.products.map(
-      (product: any): TProduct => ({
-        id: product.id,
-        name: product.title,
-        vendor: product.brand || 'Unknown',
-        article: `ART-${product.id}`,
-        price: product.price,
-        rating: product.rating,
-        image: product.images?.[0],
-      })
-    );
+    return data.products.map(prepareProduct);
   }
   async searchProducts(params: TSearchParams): Promise<TProduct[]> {
     const query = new URLSearchParams();
@@ -52,17 +52,7 @@ class ProductsService {
 
     const data = await response.json();
 
-    return data.products.map(
-      (product: any): TProduct => ({
-        id: product.id,
-        name: product.title,
-        vendor: product.brand || 'Unknown',
-        article: `ART-${product.id}`,
-        price: product.price,
-        rating: product.rating,
-        image: product.images?.[0],
-      })
-    ); /* TODO */
+    return data.products.map(prepareProduct);
   }
   /**
    * Заглушка для добавления нового продукта (по ТЗ не нужен реальный API)

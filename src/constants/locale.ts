@@ -1,4 +1,6 @@
 export const locale = {
+  error: 'Ошибка',
+  tryAgain: 'Попробовать снова',
   products: 'Товары',
   welcome: 'Добро пожаловать!',
   pleaseLogin: 'Пожалуйста, авторизируйтесь',
