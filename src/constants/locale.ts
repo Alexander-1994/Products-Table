@@ -33,6 +33,9 @@ export const locale = {
   cancel: 'Отмена',
   productAdded: 'Новый продукт добавлен',
   loading: 'Загрузка...',
+  allPositions: 'Все позиции',
+  clear: 'Очистить',
+  close: 'Закрыть',
   /* Ошибки */
   incorrectLoginOrPassword: 'Неверный логин или пароль',
   sessionExpired: 'Ваша сессия исеткла. Авторизируйтесь повторно',
@@ -40,5 +43,4 @@ export const locale = {
     'Что-то пошло не так. Попробуйте авторизироваться повторно',
   failedToLoadProductList: 'Не удалось загрузить список продуктов',
   errorAddingProduct: 'Ошибка добавления товара',
-  allPositions: 'Все позиции',
 } as const;

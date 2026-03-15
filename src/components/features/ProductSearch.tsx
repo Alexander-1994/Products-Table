@@ -8,9 +8,10 @@ import { Input } from '../ui';
 
 type TProps = {
   onSearch: (queries: TSearchParams) => void;
+  onClear: VoidFunction;
 };
 
-export const ProductSearch: FC<TProps> = ({ onSearch }) => {
+export const ProductSearch: FC<TProps> = ({ onSearch, onClear }) => {
   const [search, setSearch] = useState('');
 
   const debouncedSearch = useDebounce(search, 500);
@@ -21,6 +22,11 @@ export const ProductSearch: FC<TProps> = ({ onSearch }) => {
     }
   }, [debouncedSearch]);
 
+  const handleClear = () => {
+    setSearch('');
+    onClear();
+  };
+
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-8">
       <div className="flex flex-col lg:flex-row gap-4 items-center lg:items-end">
@@ -29,6 +35,7 @@ export const ProductSearch: FC<TProps> = ({ onSearch }) => {
             label={locale.searchByProduct}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
+            onClear={handleClear}
             placeholder={locale.find}
             className="text-lg"
           />

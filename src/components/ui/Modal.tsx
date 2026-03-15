@@ -1,6 +1,8 @@
 import { type FC, type PropsWithChildren, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
+import { locale } from '~/constants/locale';
+
 type TProps = {
   isOpen: boolean;
   onClose: VoidFunction;
@@ -46,6 +48,7 @@ export const Modal: FC<PropsWithChildren<TProps>> = ({
             <button
               onClick={onClose}
               className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-600 text-xl p-1 rounded-lg hover:bg-gray-100 transition-all cursor-pointer"
+              title={locale.close}
             >
               x
             </button>

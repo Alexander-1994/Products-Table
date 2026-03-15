@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import productsService from '~/api/products';
 import { locale } from '~/constants/locale';
@@ -38,7 +34,7 @@ export const searchProducts = createAsyncThunk<
   TProduct[],
   TSearchParams,
   { rejectValue: string }
->('products/fetchProducts', async (query, { rejectWithValue }) => {
+>('products/searchProducts', async (query, { rejectWithValue }) => {
   try {
     return await productsService.searchProducts(query);
   } catch (error: any) {

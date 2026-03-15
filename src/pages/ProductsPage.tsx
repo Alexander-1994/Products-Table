@@ -58,7 +58,10 @@ export const ProductsPage: FC = () => {
     <div className="min-h-screen bg-gray-50">
       <Header name={user?.firstName} onLogout={handleLogout} />
       <div className="max-w-7xl mx-auto px-6 py-8">
-        <ProductSearch onSearch={handleProductsSearch} />
+        <ProductSearch
+          onSearch={handleProductsSearch}
+          onClear={handleProductsLoad}
+        />
         <ProductsTable
           items={items}
           isLoading={isProductsLoading}
