@@ -14,6 +14,6 @@ export const App = () => (
         <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
-    <Toaster position="top-right" richColors /> {/* TODO */}
+    <Toaster position="top-right" richColors />
   </Provider>
 );

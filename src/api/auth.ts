@@ -1,3 +1,4 @@
+import { locale } from '~/constants/locale';
 import type { TLoginRequest, TLoginResponse, TUser } from '~/types/auth';
 
 class AuthService {
@@ -9,7 +10,7 @@ class AuthService {
     });
 
     if (!response.ok) {
-      throw new Error('Неверный логин или пароль');
+      throw new Error(locale.incorrectLoginOrPassword);
     }
 
     return response.json();
@@ -23,8 +24,8 @@ class AuthService {
     if (!response.ok) {
       const errorMessage =
         response.status === 401
-          ? 'Ваша сессия исеткла. Авторизируйтесь повторно.'
-          : 'Что-то пошло не так. Попробуйте авторизироваться повторно';
+          ? locale.sessionExpired
+          : locale.somethingWentWrong;
 
       throw new Error(errorMessage);
     }

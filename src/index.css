@@ -1,1 +1,10 @@
 @import 'tailwindcss';
+
+@keyframes grow {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 85%;
+  }
+}

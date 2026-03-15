@@ -1,51 +1,48 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
+import { locale } from '~/constants/locale';
 import {
   fetchProducts,
   addProduct,
   setSearch,
-  setSort,
+  resetNewProductFlag,
 } from '~/redux/productsSlice';
-import { type TRootState, type TAppDispatch } from '~/redux/store';
-import { type TProduct } from '~/types/products';
+import type { TParams, TProduct } from '~/types/products';
+
+import { useAppDispatch } from './useAppDispatch';
+import { useAppSelector } from './useAppSelector';
+import { useToast } from './useToast';
 
 export const useProducts = () => {
-  const dispatch = useDispatch<TAppDispatch>();
-  const { items, loading, error, search, sortBy, sortDirection } = useSelector(
-    (state: TRootState) => state.products
+  const dispatch = useAppDispatch();
+  const { items, hasNewProduct, loading, error, search } = useAppSelector(
+    (state) => state.products
   );
+  const { toastError, toastSuccess } = useToast();
 
-  const handleProductsLoad = () => dispatch(fetchProducts());
+  useEffect(() => {
+    if (error) {
+      toastError(error);
+    } else if (hasNewProduct) {
+      toastSuccess(locale.productAdded);
+      dispatch(resetNewProductFlag());
+    }
+  }, [error, hasNewProduct]);
+
+  const handleProductsLoad = (query?: TParams) =>
+    dispatch(fetchProducts(query));
 
   const handleProductCreate = (productData: Omit<TProduct, 'id'>) =>
     dispatch(addProduct(productData));
 
   const handleSearchUpdate = (search: string) => dispatch(setSearch(search));
 
-  const handleSortUpdate = (column: keyof TProduct) => {
-    dispatch(
-      setSort({
-        sortBy: column,
-        sortDirection:
-          column === sortBy
-            ? sortDirection === 'asc'
-              ? 'desc'
-              : 'asc'
-            : 'asc',
-      })
-    );
-  };
-
   return {
     items,
     loading,
-    error,
     search,
-    sortBy,
-    sortDirection,
     handleProductsLoad,
     handleProductCreate,
     handleSearchUpdate,
-    handleSortUpdate,
   };
 };

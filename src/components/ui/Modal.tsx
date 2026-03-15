@@ -16,15 +16,15 @@ export const Modal: FC<PropsWithChildren<TProps>> = ({
       return;
     }
 
-    const handleEsc = (e: KeyboardEvent) => {
+    const handleEscapeClick = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
       }
     };
 
-    document.addEventListener('keydown', handleEsc);
+    document.addEventListener('keydown', handleEscapeClick);
 
-    return () => document.removeEventListener('keydown', handleEsc);
+    return () => document.removeEventListener('keydown', handleEscapeClick);
   }, [isOpen, onClose]);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 
 import AuthService from '~/api/auth';
+import { locale } from '~/constants/locale';
 import type { TLoginRequest, TUser, TLoginResponse } from '~/types/auth';
 
 type TAuthState = {
@@ -84,7 +85,6 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Login
       .addCase(login.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -97,10 +97,8 @@ const authSlice = createSlice({
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
-        state.error = action.payload || 'Login failed';
+        state.error = action.payload || locale.somethingWentWrong;
       })
-
-      // Initialize
       .addCase(initializeAuth.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -113,7 +111,7 @@ const authSlice = createSlice({
       .addCase(initializeAuth.rejected, (state, action) => {
         state.loading = false;
         state.user = null;
-        state.error = action.payload || 'Login failed';
+        state.error = action.payload || locale.somethingWentWrong;
       })
 
       // Logout

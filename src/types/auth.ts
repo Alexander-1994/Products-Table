@@ -18,3 +18,7 @@ export type TLoginResponse = TUser & {
   accessToken: string;
   refreshToken: string;
 };
+
+export type TLoginForm = Omit<TLoginRequest, 'expiresInMins'> & {
+  rememberMe: boolean;
+};

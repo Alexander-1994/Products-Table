@@ -5,33 +5,32 @@ import {
 } from '@reduxjs/toolkit';
 
 import productsService from '~/api/products';
-import { type TProduct } from '~/types/products';
+import { locale } from '~/constants/locale';
+import type { TParams, TProduct } from '~/types/products';
 
 type TProductsState = {
   items: TProduct[];
+  hasNewProduct: boolean;
   loading: boolean;
   error: string | null;
   search: string;
-  sortBy: keyof TProduct;
-  sortDirection: 'asc' | 'desc';
 };
 
 const initialState: TProductsState = {
   items: [],
+  hasNewProduct: false,
   loading: false,
   error: null,
   search: '',
-  sortBy: 'name',
-  sortDirection: 'asc',
 };
 
 export const fetchProducts = createAsyncThunk<
   TProduct[],
-  void,
+  TParams | undefined,
   { rejectValue: string }
->('products/fetchProducts', async (_, { rejectWithValue }) => {
+>('products/fetchProducts', async (query = {}, { rejectWithValue }) => {
   try {
-    return await productsService.getProducts(50);
+    return await productsService.getProducts(query);
   } catch (error: any) {
     return rejectWithValue(error.message);
   }
@@ -57,20 +56,8 @@ const productsSlice = createSlice({
     setSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
     },
-    setSort: (
-      state,
-      action: PayloadAction<{
-        sortBy: keyof TProduct;
-        sortDirection: 'asc' | 'desc';
-      }>
-    ) => {
-      const { sortBy, sortDirection } = action.payload;
-      if (state.sortBy === sortBy) {
-        state.sortDirection = state.sortDirection === 'asc' ? 'desc' : 'asc';
-      } else {
-        state.sortBy = sortBy;
-        state.sortDirection = 'asc';
-      }
+    resetNewProductFlag: (state) => {
+      state.hasNewProduct = false;
     },
   },
   extraReducers: (builder) => {
@@ -86,7 +73,7 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Ошибка загрузки';
+        state.error = action.payload || locale.failedToLoadProductList;
       })
       .addCase(addProduct.pending, (state) => {
         state.loading = true;
@@ -94,15 +81,16 @@ const productsSlice = createSlice({
       })
       .addCase(addProduct.fulfilled, (state, action) => {
         state.loading = false;
-        state.items.unshift(action.payload); // Добавляем в начало
+        state.items.unshift(action.payload);
+        state.hasNewProduct = true;
         state.error = null;
       })
       .addCase(addProduct.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload || 'Ошибка добавления';
+        state.error = action.payload || locale.errorAddingProduct;
       });
   },
 });
 
-export const { setSearch, setSort } = productsSlice.actions;
+export const { setSearch, resetNewProductFlag } = productsSlice.actions;
 export default productsSlice.reducer;

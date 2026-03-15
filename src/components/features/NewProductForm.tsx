@@ -1,20 +1,22 @@
-import { type FC } from 'react';
+import type { FC } from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useProducts } from '~/hooks/useProducts';
-import { TProduct } from '~/types/products';
+import { locale } from '~/constants/locale';
+import type { TNewProductForm } from '~/types/products';
 
 import { Input, Button, Loader } from '../ui';
 
-type TNewProductForm = Omit<TProduct, 'id'>;
-
 type TProps = {
+  isLoading: boolean;
   onClose: VoidFunction;
+  onSubmit: (data: TNewProductForm) => void;
 };
 
-export const NewProductForm: FC<TProps> = ({ onClose }) => {
-  const { handleProductCreate, loading } = useProducts();
-
+export const NewProductForm: FC<TProps> = ({
+  isLoading,
+  onClose,
+  onSubmit,
+}) => {
   const {
     register,
     handleSubmit: submitHandler,
@@ -28,78 +30,68 @@ export const NewProductForm: FC<TProps> = ({ onClose }) => {
     mode: 'onChange',
   });
 
-  const handleSubmit = async (data: TNewProductForm) => {
-    await handleProductCreate({
-      ...data,
-      rating: 0,
-    });
-    onClose();
-  };
-
   return (
     <>
-      <h3 className="text-2xl font-bold text-gray-900 mb-6">Добавить товар</h3>
-      <form
-        onSubmit={submitHandler(handleSubmit)}
-        className="space-y-6"
-        noValidate
-      >
+      <h3 className="text-2xl font-bold text-gray-900 mb-6">
+        {locale.addProduct}
+      </h3>
+      <form onSubmit={submitHandler(onSubmit)} className="space-y-6" noValidate>
         <Input
-          label="Наименование *"
+          label={locale.name}
           id="name"
-          placeholder="Введите название товара"
+          placeholder={locale.enterName}
           error={errors.name?.message}
-          disabled={loading}
+          disabled={isLoading}
           {...register('name', {
-            required: 'Наименование обязательно',
+            required: locale.requiredField,
             minLength: {
               value: 3,
-              message: 'Минимум 3 символа',
+              message: locale.minThreeCharacters,
             },
           })}
         />
         <Input
-          label="Производитель *"
+          label={locale.vendor}
           id="vendor"
-          placeholder="Samsung, Apple и т.д."
+          placeholder={locale.vendorExample}
           error={errors.vendor?.message}
-          disabled={loading}
+          disabled={isLoading}
           {...register('vendor', {
-            required: 'Производитель обязателен',
+            required: locale.requiredField,
             minLength: {
               value: 3,
-              message: 'Минимум 3 символа',
+              message: locale.minThreeCharacters,
             },
           })}
         />
         <Input
-          label="Артикул *"
+          label={locale.article}
           id="article"
           placeholder="ART-12345"
           error={errors.article?.message}
-          disabled={loading}
+          disabled={isLoading}
           {...register('article', {
-            required: 'Артикул обязателен',
+            required: locale.requiredField,
             minLength: {
               value: 3,
-              message: 'Минимум 3 символа',
+              message: locale.minThreeCharacters,
             },
           })}
         />
         <Input
-          label="Цена ($) *"
+          label={`${locale.price} $`}
           id="price"
           type="number"
           placeholder="99.99"
           error={errors.price?.message}
-          disabled={loading}
+          disabled={isLoading}
           {...register('price', {
-            required: 'Цена обязательна',
+            required: locale.requiredField,
             min: 0,
           })}
         />
         <Input
-          label="Рейтинг (1-5)"
+          label={`${locale.rating} (1-5)`}
           id="rating"
           type="number"
           placeholder="4.5"
@@ -108,21 +100,20 @@ export const NewProductForm: FC<TProps> = ({ onClose }) => {
             valueAsNumber: true,
             min: {
               value: 1,
-              message: 'Минимум 1',
+              message: locale.minOne,
             },
             max: {
               value: 5,
-              message: 'Максимум 5',
+              message: locale.maxFive,
             },
           })}
         />
-        {/* Кнопки */}
         <div className="flex justify-end gap-3 pt-6">
-          <Button variant="secondary" disabled={loading} onClick={onClose}>
-            Отмена
+          <Button variant="secondary" disabled={isLoading} onClick={onClose}>
+            {locale.cancel}
           </Button>
-          <Button type="submit" variant="primary" disabled={loading}>
-            {loading ? <Loader /> : 'Добавить'}
+          <Button type="submit" variant="primary" disabled={isLoading}>
+            {isLoading ? <Loader /> : locale.add}
           </Button>
         </div>
       </form>
