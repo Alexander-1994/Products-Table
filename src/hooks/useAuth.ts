@@ -8,19 +8,22 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
   const { user, loading, error } = useAppSelector((state) => state.auth);
 
-  const signIn = (data: TLoginRequest & { rememberMe: boolean }) =>
+  const handleSignIn = (data: TLoginRequest & { rememberMe: boolean }) =>
     dispatch(login(data));
-  const initAuth = () => dispatch(initializeAuth());
-  const signOut = () => dispatch(logout());
-  const resetError = () => dispatch(clearError());
+
+  const handleAuthInit = () => dispatch(initializeAuth());
+
+  const handleSignOut = () => dispatch(logout());
+
+  const handleErrorReset = () => dispatch(clearError());
 
   return {
     user,
     loading,
     error,
-    signIn,
-    initAuth,
-    signOut,
-    resetError,
+    handleSignIn,
+    handleAuthInit,
+    handleSignOut,
+    handleErrorReset,
   };
 };

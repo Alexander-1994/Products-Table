@@ -33,7 +33,7 @@ export const locale = {
   minOne: 'Минимум 1',
   maxFive: 'Максимум 5',
   cancel: 'Отмена',
-  productAdded: 'Новый продукт добавлен',
+  productAdded: 'Новый товар добавлен',
   loading: 'Загрузка...',
   allPositions: 'Все позиции',
   page: 'Страница',
@@ -47,6 +47,6 @@ export const locale = {
   sessionExpired: 'Ваша сессия исеткла. Авторизируйтесь повторно',
   somethingWentWrong:
     'Что-то пошло не так. Попробуйте авторизироваться повторно',
-  failedToLoadProductList: 'Не удалось загрузить список продуктов',
+  failedToLoadProductList: 'Не удалось загрузить список товаров',
   errorAddingProduct: 'Ошибка добавления товара',
 } as const;

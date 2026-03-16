@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  type PayloadAction,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 import AuthService from '~/api/auth';
 import { locale } from '~/constants/locale';
@@ -20,7 +16,6 @@ const initialState: TAuthState = {
   error: null,
 };
 
-// Async Thunks
 export const login = createAsyncThunk<
   TUser,
   TLoginRequest & { rememberMe: boolean },
@@ -113,8 +108,6 @@ const authSlice = createSlice({
         state.user = null;
         state.error = action.payload || locale.somethingWentWrong;
       })
-
-      // Logout
       .addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.error = null;

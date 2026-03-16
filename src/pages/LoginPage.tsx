@@ -12,7 +12,7 @@ const TOKEN_LIFETIME = 1440;
 
 export const LoginPage: FC = () => {
   const navigate = useNavigate();
-  const { user, signIn, loading, error } = useAuth();
+  const { user, handleSignIn, loading, error } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -21,7 +21,7 @@ export const LoginPage: FC = () => {
   }, [user, navigate]);
 
   const handleSubmit = (data: TLoginForm) => {
-    signIn({ ...data, expiresInMins: TOKEN_LIFETIME });
+    handleSignIn({ ...data, expiresInMins: TOKEN_LIFETIME });
   };
 
   return (

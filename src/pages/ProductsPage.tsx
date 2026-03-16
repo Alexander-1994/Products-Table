@@ -16,7 +16,12 @@ export const ProductsPage: FC = () => {
   const navigate = useNavigate();
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const { user, initAuth, signOut, loading: isAuthLoading } = useAuth();
+  const {
+    user,
+    handleAuthInit,
+    handleSignOut,
+    loading: isAuthLoading,
+  } = useAuth();
   const {
     items,
     loading: isProductsLoading,
@@ -26,7 +31,7 @@ export const ProductsPage: FC = () => {
   } = useProducts();
 
   useEffect(() => {
-    initAuth();
+    handleAuthInit();
     handleProductsLoad();
   }, []);
 
@@ -37,7 +42,7 @@ export const ProductsPage: FC = () => {
   }, [isAuthLoading, user, navigate]);
 
   const handleLogout = () => {
-    signOut();
+    handleSignOut();
     navigate('/login');
   };
 

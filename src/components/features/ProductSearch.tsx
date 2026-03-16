@@ -14,7 +14,7 @@ type TProps = {
 export const ProductSearch: FC<TProps> = ({ onSearch, onClear }) => {
   const [search, setSearch] = useState('');
 
-  const debouncedSearch = useDebounce(search, 500);
+  const debouncedSearch = useDebounce(search, 700);
 
   const handleClear = useCallback(() => {
     setSearch('');

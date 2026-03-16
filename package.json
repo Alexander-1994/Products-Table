@@ -2,7 +2,7 @@
   "name": "products-table",
   "version": "0.0.0",
   "type": "module",
-  "description": "тестовое задание",
+  "description": "таблица товаров",
   "scripts": {
     "start": "vite",
     "preview": "vite preview",
