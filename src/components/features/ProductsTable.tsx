@@ -1,9 +1,9 @@
-import { type FC, useState } from 'react';
+import { type FC, useState, useEffect } from 'react';
 
 import { locale } from '~/constants/locale';
-import type { TProduct, TParams } from '~/types/products';
+import type { TProduct, TSortParams } from '~/types/products';
 
-import { Button, ProgressBar } from '../ui';
+import { Button, ProgressBar, Pagination } from '../ui';
 
 type TSortBy = keyof Pick<TProduct, 'price' | 'rating'>;
 type TOrder = 'asc' | 'desc';
@@ -13,7 +13,7 @@ type TProps = {
   isLoading: boolean;
   onUpdate: VoidFunction;
   onAdd: VoidFunction;
-  onSort: (queries: TParams) => void;
+  onSort: (queries: TSortParams) => void;
 };
 
 export const ProductsTable: FC<TProps> = ({
@@ -25,12 +25,31 @@ export const ProductsTable: FC<TProps> = ({
 }) => {
   const [sortBy, setSortBy] = useState<TSortBy>();
   const [order, setOrder] = useState<TOrder>();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const arrow = order === 'asc' ? '↑' : '↓';
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [items.length]);
+
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedItems = items.slice(startIndex, endIndex);
+
+  const goToPrev = () => setCurrentPage((p) => Math.max(p - 1, 1));
+  const goToNext = () => setCurrentPage((p) => Math.min(p + 1, totalPages));
+  const goToPage = (page: number) => setCurrentPage(page);
+
   const renderHeader = () => (
     <div className="flex justify-between items-center">
-      <h2 className="text-xl font-bold text-gray-900">{locale.allPositions}</h2>
+      <h2 className="text-xl font-bold text-gray-900">
+        {locale.allPositions}: {items.length}
+        {totalPages > 0 &&
+          ` (${locale.page.toLowerCase()} ${currentPage} из ${totalPages})`}
+      </h2>
       <div className="flex justify-end gap-3 py-5">
         <Button onClick={onUpdate} variant="secondary" size="sm">
           {locale.update}
@@ -95,7 +114,7 @@ export const ProductsTable: FC<TProps> = ({
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
-              {items.map((product) => (
+              {paginatedItems.map((product) => (
                 <tr
                   key={product.id}
                   className="hover:bg-gray-50 transition-colors"
@@ -150,6 +169,16 @@ export const ProductsTable: FC<TProps> = ({
             </tbody>
           </table>
         </div>
+        <Pagination
+          totalPages={totalPages}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          itemsLength={items.length}
+          currentPage={currentPage}
+          goToPrev={goToPrev}
+          goToPage={goToPage}
+          goToNext={goToNext}
+        />
       </div>
     </>
   );

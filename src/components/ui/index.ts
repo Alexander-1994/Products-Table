@@ -6,3 +6,4 @@ export { Loader } from './Loader';
 export { Header } from './Header';
 export { Modal } from './Modal';
 export { ProgressBar } from './ProgressBar';
+export { Pagination } from './Pagination';

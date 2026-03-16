@@ -36,8 +36,12 @@ export const locale = {
   productAdded: 'Новый продукт добавлен',
   loading: 'Загрузка...',
   allPositions: 'Все позиции',
+  page: 'Страница',
   clear: 'Очистить',
   close: 'Закрыть',
+  back: '← Назад',
+  next: 'Вперед →',
+  pagination: 'Показаны {current} из {total} товаров',
   /* Ошибки */
   incorrectLoginOrPassword: 'Неверный логин или пароль',
   sessionExpired: 'Ваша сессия исеткла. Авторизируйтесь повторно',
